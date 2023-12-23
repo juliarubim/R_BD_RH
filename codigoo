@@ -1,0 +1,22 @@
+install.packages("faker")
+
+  library(faker)
+
+
+num_funcionarios <- 500
+
+
+dados <- data.frame(
+  Id_Matricula = 1:num_funcionarios,
+  Nome = faker::faker(locale = 'pt_BR')$name(num_funcionarios),
+  Data_Nascimento = faker::faker(locale = 'pt_BR')$date_of_birth(num_funcionarios, minimum_age = 22, maximum_age = 65),
+  Cidade_Estado = paste(faker::faker(locale = 'pt_BR')$city(), faker::faker(locale = 'pt_BR')$state_abbr(), sep = "/"),
+  Data_Demissao = ifelse(sample(c(TRUE, FALSE), num_funcionarios, replace = TRUE), faker::faker(locale = 'pt_BR')$date_this_century(num_funcionarios), ""),
+  Status = sample(c("Ativo", "Atestado", "Férias", "Aposentado","Inativo", "Retenção"), num_funcionarios, replace = TRUE),
+  Sexo = sample(c("Masculino", "Feminino"), num_funcionarios, replace = TRUE),
+  Estado_Civil = sample(c("Casado", "Solteiro", "Divorciado"), num_funcionarios, replace = TRUE),
+  Escolaridade = sample(c("Ensino Fundamental", "Ensino Médio", "Superior Incompleto", "Superior Completo", "Pós-Graduação", "Doutorado", "Técnico"), num_funcionarios, replace = TRUE)
+)
+
+
+write.csv(dados, file = "dados_rh.csv", row.names = FALSE)
